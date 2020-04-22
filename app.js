@@ -13,11 +13,19 @@ app.use(bodyParser.json())
 // Import Routes
 var appRoutes = require('./routes/app');
 var usuarioRoutes = require('./routes/usuario');
-var loginroutes = require('./routes/login');
+var loginRoutes = require('./routes/login');
+var hospitalRoutes = require('./routes/hospital');
+var medicoRoutes = require('./routes/medico');
+var busquedaRoutes = require('./routes/busqueda');
 
 // Conections to database
 mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', 
-    { useCreateIndex: true, useNewUrlParser: true }, ( err, res ) => {
+    { 
+        useCreateIndex: true, 
+        useNewUrlParser: true, 
+        useUnifiedTopology: true,
+        useFindAndModify: false 
+    }, ( err, res ) => {
 
     if ( err ) throw err;
 
@@ -27,7 +35,10 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB',
 
 // Routes
 app.use('/usuario', usuarioRoutes);
-app.use('/login', loginroutes);
+app.use('/hospital', hospitalRoutes);
+app.use('/medico', medicoRoutes);
+app.use('/login', loginRoutes);
+app.use('/busqueda', busquedaRoutes);
 app.use('/', appRoutes);
 
 // Settings
